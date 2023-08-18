@@ -1,6 +1,5 @@
 import requests
 import streamlit as st
-from streamlit_lottie import st_lottie
 from PIL import Image
 import io
 import base64
@@ -12,11 +11,6 @@ st.set_page_config(
 )
 
 
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
 
 
 # Use local CSS
@@ -35,8 +29,6 @@ def resize_image(input_image_path, size):
 
 local_css("style/style.css")
 
-# ---- LOAD ASSETS ----
-lottie_coding = load_lottieurl("https://lottie.host/7c7dcfc4-e9bc-4f77-b66a-17aae5f24802/d1mFNJG9HF.json")
 
 
 # ---- HEADER SECTION ----
@@ -98,7 +90,9 @@ with st.container():
         """, unsafe_allow_html=True)
 
     with right_column:
-        st_lottie(lottie_coding, height=450, key="coding")
+        st.markdown(" ")
+        show_image = "images\data_image.png"
+        st.image(show_image, width=500)
 
 
 with st.container():

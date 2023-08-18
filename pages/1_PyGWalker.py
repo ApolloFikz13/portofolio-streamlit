@@ -75,5 +75,5 @@ def load_config(file_path):
     with open(file_path, 'r') as config_file:
         config_str = config_file.read()
     return config_str
-config = load_config('pages\config.json')
+config = load_config('pages//config.json')
 pyg.walk(df, env='Streamlit', dark='light', spec=config)

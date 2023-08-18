@@ -7,76 +7,6 @@ from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
 import tempfile
 import base64
 
-mp_holistic = mp.solutions.holistic  # Holistic model
-
-actions = ['aku', 'apa', 'bagaimana', 'berapa', 'di', 'halo', 'I', 'J', 'K', 'kamu', 'kapan', 'ke', 'kita', 'makan', 'mana', 'minum', 'nama', 'saya', 'siapa', 'Z'] #realtimemodel
-
-
-@st.cache_resource
-def load_custom_model():
-    return load_model(r'pages\translateV17.h5')
-
-model = load_custom_model()
-
-threshold = 0.5
-
-class VideoTransformer():
-    def __init__(self):
-        self.holistic = mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-        self.sequence = []
-        self.sentence = []
-
-    def extract_keypoints(self, results):
-        lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
-        rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
-        return np.concatenate([lh, rh])
-
-    def transform(self, frame):
-        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image_rgb.flags.writeable = False
-        results = self.holistic.process(image_rgb)
-        image_rgb.flags.writeable = True
-        image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
-        keypoints = self.extract_keypoints(results)
-
-        try:
-            self.sequence.append(keypoints)
-            self.sequence = self.sequence[-15:]
-        except NameError:
-            self.sequence = [keypoints]
-
-        if len(self.sequence) == 15:
-            try:
-                res = model.predict(np.expand_dims(self.sequence, axis=0))[0]
-
-                if res[np.argmax(res)] > threshold:
-                    self.sentence.append(actions[np.argmax(res)])
-
-                if len(self.sentence) > 1:
-                    self.sentence = self.sentence[-1:]
-            except Exception as e:
-                print("No sentence detected:", str(e))
-
-        return image_rgb
-
-st.markdown(
-    """
-    <style>
-    .bar {
-        background-color: #437FC7;
-        height: 35px;
-    }
-    .sentence {
-        font-size: 21px;
-    }
-    .subheader {
-        font-size: 14px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 st.write("---")
 st.title("SIBI Sign Language Translator using LSTM and Mediapipe")
 
@@ -156,6 +86,77 @@ st.markdown('<h2 style="font-size: 31px; text-align: center;">🙀 Sorry This Se
 st.write("---")
 st.write("#")
 st.write("#")
+mp_holistic = mp.solutions.holistic  # Holistic model
+
+actions = ['aku', 'apa', 'bagaimana', 'berapa', 'di', 'halo', 'I', 'J', 'K', 'kamu', 'kapan', 'ke', 'kita', 'makan', 'mana', 'minum', 'nama', 'saya', 'siapa', 'Z'] #realtimemodel
+
+
+@st.cache_resource
+def load_custom_model():
+    return load_model('translateV17.h5')
+
+model = load_custom_model()
+
+threshold = 0.5
+
+class VideoTransformer():
+    def __init__(self):
+        self.holistic = mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+        self.sequence = []
+        self.sentence = []
+
+    def extract_keypoints(self, results):
+        lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
+        rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
+        return np.concatenate([lh, rh])
+
+    def transform(self, frame):
+        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image_rgb.flags.writeable = False
+        results = self.holistic.process(image_rgb)
+        image_rgb.flags.writeable = True
+        image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+        keypoints = self.extract_keypoints(results)
+
+        try:
+            self.sequence.append(keypoints)
+            self.sequence = self.sequence[-15:]
+        except NameError:
+            self.sequence = [keypoints]
+
+        if len(self.sequence) == 15:
+            try:
+                res = model.predict(np.expand_dims(self.sequence, axis=0))[0]
+
+                if res[np.argmax(res)] > threshold:
+                    self.sentence.append(actions[np.argmax(res)])
+
+                if len(self.sentence) > 1:
+                    self.sentence = self.sentence[-1:]
+            except Exception as e:
+                print("No sentence detected:", str(e))
+
+        return image_rgb
+
+st.markdown(
+    """
+    <style>
+    .bar {
+        background-color: rgb(114, 134, 211);
+        height: 35px;
+    }
+    .sentence {
+        font-size: 21px;
+    }
+    .subheader {
+        font-size: 14px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 st.markdown('<div class="bar"></div>', unsafe_allow_html=True)
 
 st.markdown('<h1 style="text-align: center;">Sign Language Detection</h1>', unsafe_allow_html=True)
@@ -164,12 +165,12 @@ for _ in range(5):
     st.markdown("")
     
 url = 'https://bit.ly/KataSIBI'
+st.write("[Watch the demo first !! >](https://drive.google.com/file/d/1-VtTWXQCHm1J_ZEf5QLk6bJQDcQc6YBb/view?usp=sharing)")
 st.markdown(f'''
-<a href={url}><button style="font-size: 13px; color: white;background-color: #437FC7;">click to see the SIBI Sign Language</button></a>
+<a href={url}><button style="font-size: 13px; color: white;background-color:rgb(114, 134, 211);">click to see dataset</button></a>
 ''',
 unsafe_allow_html=True)
-st.write("[Watch the demo first !! >](https://drive.google.com/file/d/1-VtTWXQCHm1J_ZEf5QLk6bJQDcQc6YBb/view?usp=sharing)")
-uploaded_file = st.file_uploader("Upload video (max. 5 seconds)", type=["mp4"])
+uploaded_file = st.file_uploader("Upload a video (max. 5 second)", type=["mp4"])
 flip_the_video = st.checkbox("check for mirrored video")
 
 st.markdown('<h2 style="font-size: 21px;">Note: can only detecting one gesture at a time!</h2>', unsafe_allow_html=True)
@@ -198,6 +199,6 @@ if uploaded_file is not None:
 
     video.release()
 
-    st.markdown('<h2 style="font-size: 27px;">Translate:</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style="font-size: 27px;">Detection Result:</h2>', unsafe_allow_html=True)
 
     st.write('<div class="sentence">' + ' '.join(video_transformer.sentence) + '</div>', unsafe_allow_html=True)

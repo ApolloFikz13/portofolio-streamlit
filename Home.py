@@ -64,7 +64,7 @@ with st.container():
         st.title(" ")
         st.title(" ")
         st.title(" ")
-        resized_image = resize_image("images\\foto.png", 300)
+        resized_image = resize_image("images//foto.png", 300)
         st.image(resized_image)
 
 
@@ -114,7 +114,7 @@ with st.container():
     with center_column:
         st.title(" ")
     with right_column:
-        image = Image.open("images\\logotelu.png")
+        image = Image.open("images//logotelu.png")
         resized_image = image.resize((160,160))
         buffered = io.BytesIO()
         resized_image.save(buffered, format="PNG")

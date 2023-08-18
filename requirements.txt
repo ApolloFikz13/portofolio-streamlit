@@ -1,0 +1,15 @@
+mediapipe==0.9.3.0
+numpy==1.21.5
+numpy==1.19.5
+opencv_contrib_python==4.7.0.72
+opencv_python==4.8.0.74
+pandas==1.4.4
+Pillow==9.2.0
+Pillow==10.0.0
+plotly==5.9.0
+pygwalker==0.3.3
+Requests==2.31.0
+streamlit==1.24.0
+streamlit_lottie==0.0.5
+streamlit_webrtc==0.45.1
+tensorflow==2.7.0

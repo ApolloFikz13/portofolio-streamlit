@@ -93,7 +93,7 @@ actions = ['aku', 'apa', 'bagaimana', 'berapa', 'di', 'halo', 'I', 'J', 'K', 'ka
 
 @st.cache_resource
 def load_custom_model():
-    return load_model(r'pages\translateV17.h5')
+    return load_model('pages/translateV17.h5')
 
 model = load_custom_model()
 

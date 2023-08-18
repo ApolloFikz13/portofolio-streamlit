@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+from streamlit_lottie import st_lottie
 from PIL import Image
 import io
 import base64
@@ -11,6 +12,11 @@ st.set_page_config(
 )
 
 
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 
 # Use local CSS
@@ -29,7 +35,7 @@ def resize_image(input_image_path, size):
 
 local_css("style/style.css")
 
-
+lottie_coding = load_lottieurl("https://lottie.host/dbb6192e-e1c3-41ab-b02a-169e62282534/Z3wKX5HScH.json")
 
 # ---- HEADER SECTION ----
 with st.container():
@@ -56,6 +62,8 @@ with st.container():
     with col3:
         st.title(" ")
         st.title(" ")
+        st.title(" ")
+        st.title(" ")
         resized_image = resize_image("images/foto.png", 300)
         st.image(resized_image)
 
@@ -63,7 +71,7 @@ with st.container():
 
 with st.container():
     st.write("---")
-    left_column, right_column = st.columns(2)
+    left_column, center_column, right_column = st.columns(3)
     with left_column:
         st.header("Work Experience")
         st.markdown('<h2 style="font-size: 20px;">Data Analyst Intern - Campaign.com    |  Jakarta, Indonesia  |   May 2022 - September 2022</h2>', unsafe_allow_html=True)
@@ -90,9 +98,10 @@ with st.container():
         """, unsafe_allow_html=True)
 
     with right_column:
-        st.markdown(" ")
-        show_image = "images\data_image.png"
-        st.image(show_image, width=500)
+        st.title(" ")
+        st.title(" ")
+        st_lottie(lottie_coding, height=500, key="coding")
+        
 
 
 with st.container():

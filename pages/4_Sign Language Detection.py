@@ -165,12 +165,12 @@ for _ in range(5):
     st.markdown("")
     
 url = 'https://bit.ly/KataSIBI'
-st.write("[Watch the demo first !! >](https://drive.google.com/drive/folders/1iFAW6sUos9oFMhbxbCywFTanBcBNibsk?usp=sharing)")
+st.write("[Watch the demo first !! >](https://drive.google.com/file/d/1-VtTWXQCHm1J_ZEf5QLk6bJQDcQc6YBb/view?usp=sharing)")
 st.markdown(f'''
 <a href={url}><button style="font-size: 13px; color: white;background-color:rgb(114, 134, 211);">click to see dataset</button></a>
 ''',
 unsafe_allow_html=True)
-st.write("[Try with the provided test data here! >](https://drive.google.com/file/d/1-VtTWXQCHm1J_ZEf5QLk6bJQDcQc6YBb/view?usp=sharing)")
+st.write("[Try with the provided test data here! >](https://drive.google.com/drive/folders/1iFAW6sUos9oFMhbxbCywFTanBcBNibsk?usp=sharing)")
 uploaded_file = st.file_uploader("Upload a video (max. 5 second)", type=["mp4"])
 flip_the_video = st.checkbox("check for mirrored video")
 

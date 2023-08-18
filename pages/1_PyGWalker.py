@@ -64,7 +64,7 @@ st.markdown(f"<h2 style='font-size: 20px;'>The date of the highest price is: {da
 
 st.write("---")
 st.subheader("PyGWalker Interactive Dashboard")
-st.write("[Watch the demo first !! >](https://drive.google.com/file/d/1gJhU_xVe_2VE29SnKFk2jNk7Onb-2_Jw/view?usp=sharing)")
+st.write("[Watch the demo first !! >](https://drive.google.com/file/d/1GUAnClV-P8PpeZZHstkTuZu23NmT1V_L/view?usp=sharing)")
 @st.cache_data
 def load_data(url):
     df = pd.read_csv(url)

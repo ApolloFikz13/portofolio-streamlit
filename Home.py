@@ -110,7 +110,7 @@ with st.container():
     with left_column:
         st.header("Education")
         st.markdown('<h2 style="font-size: 30spx;">Telkom University</h2>', unsafe_allow_html=True)
-        st.markdown('<p style="font-size: 20px;">Bachelor Degree in Computer Engineering, GPA = 3.71</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 20px;">Bachelor Degree in Computer Engineering, GPA = 3.72</p>', unsafe_allow_html=True)
     with center_column:
         st.title(" ")
     with right_column:
